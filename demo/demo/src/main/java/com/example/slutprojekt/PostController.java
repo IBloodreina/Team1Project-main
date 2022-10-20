@@ -47,6 +47,9 @@ public class PostController {
     @Autowired
     private CityRepo cityRepo;
 
+    @Autowired
+    private AllFilesRepo allFilesRepo;
+
 
     @GetMapping("/post/{id}")
     public String post(Model model, @PathVariable Long id) {
@@ -273,12 +276,25 @@ public class PostController {
 
     @GetMapping("/filesUpload")
     public String filesUpload(HttpSession session,Principal principal, Model model,HttpServletRequest request, @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
+
         Document document = new Document();
-        List<Document> allDocuments = (List<Document>) documentRepo.findAll();
+        List<AllFiles> allFiles = new ArrayList<AllFiles>();
+
+        for (Document document1 : documentRepo.findAll()) {
+            allFiles.add(new AllFiles(document1.getFileName(), document1.getDate()));
+
+        }
+        for (Assignment document1 : assignmentRepo.findAll()) {
+            allFiles.add(new AllFiles(document1.getFileName(), document1.getCreatedDate()));
+
+        }
+        for (TeacherAnnouncement document1 : teacherAnnouncementRepo.findAll()) {
+            allFiles.add(new AllFiles(document1.getImg(), document1.getDate()));
+
+        }
+
         model.addAttribute("document", document);
-        model.addAttribute("allDocuments", allDocuments);
-        model.addAttribute("allCourses", assignmentRepo.findAll());
-        model.addAttribute("allContent",teacherAnnouncementRepo.findAll());
+        model.addAttribute("fil", allFiles);
 
         return "filesUpload";
     }

@@ -47,11 +47,15 @@
     <div class="column2">
       <h2>All Files</h2>
       <br>
-      <button>Sort by date</button> <br> <button>Sort by name</button>
+      <form th:action="@{/sortByName}" method="post">
+        <input id="editPost" type="submit" value="Sort by name">
+      </form>
+
       <br>
       <ol>
-      <div th:each="post : ${allContent}" th:if="${post.img} != null">
-        <a th:href="@{files/} + ${post.img}"> <p th:text="${post.img}"></p></a><p th:text="${post.date}"></p>
+
+      <div th:each="fil : ${allFiles}">
+        <a th:href="@{files/} + ${fil.fileName}"> <p th:text="${fil.fileName}"></p></a><p th:text="${fil.date}"></p>
       </div>
 
 
