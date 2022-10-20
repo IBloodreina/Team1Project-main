@@ -279,7 +279,6 @@ public class PostController {
         Document document = new Document();
 
         List<AllFiles> allFiles = new ArrayList<>();
-
         for (Document document1 : documentRepo.findAll()) {
             allFiles.add(new AllFiles(document1.getFileName(), document1.getDate()));
 
@@ -293,7 +292,6 @@ public class PostController {
             allFiles.add(new AllFiles(document1.getImg(), document1.getDate()));
            // allFilesRepo.save(new AllFiles(document1.getImg(), document1.getDate()));
         }
-
 
         model.addAttribute("document", document);
              model.addAttribute("fil", allFiles);
