@@ -276,13 +276,12 @@ public class PostController {
 
     @GetMapping("/filesUpload")
     public String filesUpload(HttpSession session,Principal principal, Model model,HttpServletRequest request, @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
-        Document document = new Document();
 
         List<AllFiles> allFiles = new ArrayList<>();
+
         for (Document document1 : documentRepo.findAll()) {
             allFiles.add(new AllFiles(document1.getFileName(), document1.getDate()));
-
-          //  allFilesRepo.save(new AllFiles(document1.getFileName(), document1.getDate()));
+            allFilesRepo.save(new AllFiles(document1.getFileName(), document1.getDate()));
         }
         for (Assignment document1 : assignmentRepo.findAll()) {
             allFiles.add(new AllFiles(document1.getFileName(), document1.getCreatedDate()));
@@ -292,9 +291,11 @@ public class PostController {
             allFiles.add(new AllFiles(document1.getImg(), document1.getDate()));
            // allFilesRepo.save(new AllFiles(document1.getImg(), document1.getDate()));
         }
+        model.addAttribute("fil", allFiles);
 
+        Document document = new Document();
         model.addAttribute("document", document);
-             model.addAttribute("fil", allFiles);
+
 
         return "filesUpload";
     }
