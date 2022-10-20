@@ -273,7 +273,13 @@ public class PostController {
         return "redirect:/addStudent";
     }
 
+    @PostMapping("/sortByName")
+    public String sort(@ModelAttribute List<AllFiles> allFiles)
+    {
+        Collections.sort(allFiles, (o1, o2) -> o2.getFileName().compareTo(o1.getFileName()));
 
+        return "redirect:/filesUpload";
+    }
     @GetMapping("/filesUpload")
     public String filesUpload(HttpSession session,Principal principal, Model model,HttpServletRequest request, @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
 
@@ -281,21 +287,17 @@ public class PostController {
 
         for (Document document1 : documentRepo.findAll()) {
             allFiles.add(new AllFiles(document1.getFileName(), document1.getDate()));
-            allFilesRepo.save(new AllFiles(document1.getFileName(), document1.getDate()));
         }
         for (Assignment document1 : assignmentRepo.findAll()) {
             allFiles.add(new AllFiles(document1.getFileName(), document1.getCreatedDate()));
-           // allFilesRepo.save(new AllFiles(document1.getFileName(), document1.getCreatedDate()));
         }
         for (TeacherAnnouncement document1 : teacherAnnouncementRepo.findAll()) {
             allFiles.add(new AllFiles(document1.getImg(), document1.getDate()));
-           // allFilesRepo.save(new AllFiles(document1.getImg(), document1.getDate()));
         }
         model.addAttribute("fil", allFiles);
 
         Document document = new Document();
         model.addAttribute("document", document);
-
 
         return "filesUpload";
     }
@@ -325,7 +327,6 @@ public class PostController {
 
         return "redirect:/filesUpload";
     }
-
     @PostMapping("/deletePost")
     public String deletePost(@RequestParam Long id) {
 

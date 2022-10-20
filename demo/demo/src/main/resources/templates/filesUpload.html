@@ -52,14 +52,16 @@
       </form>
 
       <br>
-      <ol>
 
-      <div th:each="fil : ${AllFiles}">
-        <a th:href="@{files/} + ${fil.fileName}"> <p th:text="${fil.fileName}"></p></a><p th:text="${fil.date}"></p>
+
+      <div th:each="filen : ${fil}" th:if="${filen.fileName} != null">
+        <a th:href="@{files/} + ${filen.fileName}">
+          <p th:text="${filen.fileName}"></p></a>
+        <p th:text="${filen.date}"></p>
       </div>
 
 
-      </ol>
+
       <div sec:authorize="hasAuthority('ADMIN')">
 
         <div class="createDocument1">
