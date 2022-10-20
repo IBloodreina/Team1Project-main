@@ -54,7 +54,7 @@
       <br>
       <ol>
 
-      <div th:each="fil : ${allFiles}">
+      <div th:each="fil : ${AllFiles}">
         <a th:href="@{files/} + ${fil.fileName}"> <p th:text="${fil.fileName}"></p></a><p th:text="${fil.date}"></p>
       </div>
 
